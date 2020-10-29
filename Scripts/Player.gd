@@ -28,12 +28,18 @@ func _unhandled_input(event):
 		if now >= next_attack_time:
 			# What's the target?
 			var target = $RayCast2D.get_collider()
-			print(target)
+			#print(target)
 			if target != null:
 				# NEW CODE - START
 				if target.is_in_group("NPCs"):
 					# Talk to NPC
 					target.talk()
+					return
+				if target.name == "Bed":
+					# Sleep
+					print("Its a bed")
+					get_tree().root.get_node("Root/CanvasLayer/AnimationPlayer").play("Sleep")
+					yield(get_tree().create_timer(1), "timeout")
 					return
 				# NEW CODE - END
 			# Add cooldown time to current time
@@ -112,15 +118,21 @@ func AnimationLoop():
 		
 	if moving == true:
 		anim_mode = "Walk"
+		if not $Footsteps.is_playing():
+			$Footsteps.play()
 	elif moving == false:
 		anim_mode = "Idle"
+		if $Footsteps.is_playing():
+			$Footsteps.stop()
 	animation = anim_mode + "_" + anim_direction
-	get_node("AnimationPlayer").play(animation)
+	$AnimationPlayer.play(animation)
 	
 func RayCastAngleLoop():
 	cast_line = $RayCast2D
-	print(move_direction - 90)
+	#print(move_direction - 90)
 	cast_line.rotation_degrees = move_direction - 90
 	
 	
-	
+func PlaySoundFX(sound):
+	$SoundFX.set_stream(sound)
+	$SoundFX.play()

@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/974844_found-friends.ogg-73e167eabcdbe9fb844fbffe128ffce8.oggstr"
+
+[deps]
+
+source_file="res://Sounds/974844_found-friends.ogg"
+dest_files=[ "res://.import/974844_found-friends.ogg-73e167eabcdbe9fb844fbffe128ffce8.oggstr" ]
+
+[params]
+
+loop=true
+loop_offset=0
