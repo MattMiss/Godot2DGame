@@ -1,5 +1,8 @@
 extends Node2D
 
+export var speed = 200
+onready var enemy_self = owner
+
 signal state_changed(new_state)
 
 enum State {
@@ -14,13 +17,18 @@ var player = null
 
 
 
-func _process(_delta):
+func _process(delta):
 	match current_state:
 		State.PATROL:
 			pass
 		State.ENGAGE:
 			if player != null:
-				print("Engaging")
+				var velocity = enemy_self.position.direction_to(player.position)
+				var angle = enemy_self.position.angle_to_point(player.position)
+				enemy_self.move_and_collide(velocity * speed * delta)
+				enemy_self.MoveInDirection(angle)
+				enemy_self.moving = true
+
 
 
 
