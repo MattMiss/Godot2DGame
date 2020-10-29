@@ -16,11 +16,11 @@ extents = Vector2( 126.031, 87.7981 )
 [sub_resource type="RectangleShape2D" id=4]
 extents = Vector2( 7.5256, 55.6624 )
 
-[sub_resource type="RectangleShape2D" id=5]
-extents = Vector2( 25.2933, 37.1418 )
-
 [sub_resource type="RectangleShape2D" id=6]
 extents = Vector2( 296.029, 207.756 )
+
+[sub_resource type="RectangleShape2D" id=5]
+extents = Vector2( 25.2933, 37.1418 )
 
 [node name="Home" type="Node2D"]
 script = ExtResource( 3 )
@@ -53,10 +53,6 @@ shape = SubResource( 3 )
 position = Vector2( -296.108, 8.41844 )
 shape = SubResource( 4 )
 
-[node name="Bed" type="CollisionShape2D" parent="StaticBody2D"]
-position = Vector2( -266.924, -8.97969 )
-shape = SubResource( 5 )
-
 [node name="EastWall" type="CollisionShape2D" parent="StaticBody2D"]
 position = Vector2( 297.315, 8.97971 )
 shape = SubResource( 4 )
@@ -66,5 +62,11 @@ shape = SubResource( 4 )
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
 position = Vector2( 2.80615, 1.6837 )
 shape = SubResource( 6 )
+
+[node name="Bed" type="StaticBody2D" parent="."]
+
+[node name="Bed" type="CollisionShape2D" parent="Bed"]
+position = Vector2( -266.924, -8.97969 )
+shape = SubResource( 5 )
 [connection signal="body_entered" from="Area2D" to="." method="_on_Area2D_body_entered"]
 [connection signal="body_exited" from="Area2D" to="." method="_on_Area2D_body_exited"]

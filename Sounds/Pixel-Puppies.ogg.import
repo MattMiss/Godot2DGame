@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/Pixel-Puppies.ogg-18df2ebf78a0d7397ab872c92a0d7a1b.oggstr"
+
+[deps]
+
+source_file="res://Sounds/Pixel-Puppies.ogg"
+dest_files=[ "res://.import/Pixel-Puppies.ogg-18df2ebf78a0d7397ab872c92a0d7a1b.oggstr" ]
+
+[params]
+
+loop=true
+loop_offset=0

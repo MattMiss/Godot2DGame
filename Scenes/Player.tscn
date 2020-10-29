@@ -142,7 +142,9 @@ tracks/0/keys = {
 [sub_resource type="CircleShape2D" id=10]
 radius = 11.9181
 
-[node name="Player" type="KinematicBody2D"]
+[node name="Player" type="KinematicBody2D" groups=[
+"Player",
+]]
 scale = Vector2( 1.7, 1.7 )
 z_index = 1
 script = ExtResource( 2 )

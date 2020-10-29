@@ -30,6 +30,7 @@ func _unhandled_input(event):
 			var target = $RayCast2D.get_collider()
 			#print(target)
 			if target != null:
+				#print(target.name)
 				# NEW CODE - START
 				if target.is_in_group("NPCs"):
 					# Talk to NPC
@@ -45,9 +46,7 @@ func _unhandled_input(event):
 			# Add cooldown time to current time
 			next_attack_time = now + attack_cooldown_time
 
-# Called when the node enters the scene tree for the first time.
-func _ready():
-	get_tree().root.get_node("Root/CanvasLayer/DialoguePopup")
+
 	
 	
 func _process(_delta):
@@ -88,12 +87,9 @@ func DirectionMoveLoop():
 	
 
 func MovementLoop(delta):
-	if clicked == false:
-		speed = 0
-	else:
-		speed += acceleration * delta
-		if speed > max_speed:
-			speed = max_speed
+	speed += acceleration * delta
+	if speed > max_speed:
+		speed = max_speed
 	movement = position.direction_to(destination) * speed
 	move_direction = rad2deg(destination.angle_to_point(position))
 	if position.distance_to(destination) > 5:

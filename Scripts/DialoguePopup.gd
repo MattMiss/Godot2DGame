@@ -40,7 +40,7 @@ func _on_AnimationPlayer_animation_finished(_anim_name):
 
 
 func _input(event):
-	print(event)
+	#print(event)
 	if event.is_action_pressed('YesDialogue'):
 		#set_process_input(false)
 		npc.talk("Y")
