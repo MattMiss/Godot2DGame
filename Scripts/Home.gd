@@ -5,9 +5,9 @@ var outdoor_audio
 var animation_player
 
 func _ready():
-	indoor_audio = get_tree().root.get_node("Root/IndoorMusic")
-	outdoor_audio = get_tree().root.get_node("Root/OutdoorMusic")
-	animation_player = get_tree().root.get_node("Root/CanvasLayer/AnimationPlayer")
+	indoor_audio = get_tree().root.get_node("Game/IndoorMusic")
+	outdoor_audio = get_tree().root.get_node("Game/OutdoorMusic")
+	animation_player = get_tree().root.get_node("Game/CanvasLayer/AnimationPlayer")
 	
 
 func _on_Area2D_body_entered(body):
@@ -25,3 +25,7 @@ func _on_Area2D_body_exited(body):
 		outdoor_audio.set_stream_paused(false)
 		#get_tree().root.get_node("Root/OutdoorMusic").set_stream_paused(false)
 		#get_tree().root.get_node("Root/CanvasLayer/AnimationPlayer").play("OutdoorMusicFadeIn")
+
+
+func _on_SaveArea_body_entered(body):
+	pass # Replace with function body.

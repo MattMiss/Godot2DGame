@@ -1,0 +1,132 @@
+[gd_scene load_steps=10 format=2]
+
+[ext_resource path="res://Levels/DesertLevel.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Levels/main_scene.gd" type="Script" id=2]
+[ext_resource path="res://Entities/DialoguePopup.tscn" type="PackedScene" id=3]
+[ext_resource path="res://Fonts/Font.tres" type="DynamicFont" id=12]
+
+[sub_resource type="Animation" id=22]
+resource_name = "IndoorMusicFadeIn"
+length = 2.0
+tracks/0/type = "value"
+tracks/0/path = NodePath("../Desert/IndoorMusic:volume_db")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 2 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ -80.0, -20.0 ]
+}
+
+[sub_resource type="Animation" id=23]
+resource_name = "IndoorMusicFadeOut"
+length = 2.0
+tracks/0/type = "value"
+tracks/0/path = NodePath("../Desert/IndoorMusic:volume_db")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 2 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ -20.0, -80.0 ]
+}
+
+[sub_resource type="Animation" id=24]
+resource_name = "OutdoorMusicFadeIn"
+length = 2.0
+tracks/0/type = "value"
+tracks/0/path = NodePath("../Desert/OutdoorMusic:volume_db")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 2 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ -80.0, -20.0 ]
+}
+
+[sub_resource type="Animation" id=25]
+length = 2.0
+tracks/0/type = "value"
+tracks/0/path = NodePath("../Desert/OutdoorMusic:volume_db")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 2 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ -20.0, -80.0 ]
+}
+
+[sub_resource type="Animation" id=21]
+resource_name = "Sleep"
+length = 3.0
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sleep:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.4, 2.6, 3 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
+}
+
+[node name="Game" type="Node2D"]
+position = Vector2( 61.9086, 128.579 )
+script = ExtResource( 2 )
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="DialoguePopup" parent="CanvasLayer" instance=ExtResource( 3 )]
+
+[node name="Sleep" type="ColorRect" parent="CanvasLayer"]
+modulate = Color( 1, 1, 1, 0 )
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color( 0, 0, 0, 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="RichTextLabel" type="RichTextLabel" parent="CanvasLayer/Sleep"]
+margin_left = 421.881
+margin_top = 264.984
+margin_right = 594.881
+margin_bottom = 345.984
+rect_clip_content = false
+mouse_filter = 2
+custom_fonts/normal_font = ExtResource( 12 )
+bbcode_enabled = true
+bbcode_text = "
+[center][wave amp=40 freq=2]ZZZ...[/wave][/center]"
+text = "
+ZZZ..."
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="CanvasLayer"]
+anims/IndoorMusicFadeIn = SubResource( 22 )
+anims/IndoorMusicFadeOut = SubResource( 23 )
+anims/OutdoorMusicFadeIn = SubResource( 24 )
+anims/OutdoorMusicFadeOut = SubResource( 25 )
+anims/Sleep = SubResource( 21 )
+
+[node name="Desert" parent="." instance=ExtResource( 1 )]
+[connection signal="tree_entered" from="Desert" to="." method="_on_Desert_tree_entered"]

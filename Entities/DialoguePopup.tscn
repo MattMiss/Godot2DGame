@@ -1,0 +1,122 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://Sounds/UI_Typing.ogg" type="AudioStream" id=1]
+[ext_resource path="res://Scripts/DialoguePopup.gd" type="Script" id=2]
+[ext_resource path="res://Fonts/Font.tres" type="DynamicFont" id=3]
+
+[sub_resource type="Animation" id=1]
+resource_name = "ShowDialogue"
+tracks/0/type = "value"
+tracks/0/path = NodePath("ColorRect/Dialogue:percent_visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.8 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ 0.0, 1.0 ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Typing:playing")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.001, 0.99 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 1,
+"values": [ true, true, false ]
+}
+
+[node name="DialoguePopup" type="PopupDialog"]
+pause_mode = 2
+anchor_left = 0.5
+anchor_top = 0.75
+anchor_right = 0.5
+anchor_bottom = 0.75
+margin_right = -1080.32
+margin_bottom = -54.6
+popup_exclusive = true
+script = ExtResource( 2 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ColorRect2" type="ColorRect" parent="."]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -307.0
+margin_top = -89.0
+margin_right = 309.0
+margin_bottom = 85.0
+color = Color( 0, 0, 0, 1 )
+__meta__ = {
+"_edit_use_anchors_": false,
+"_editor_description_": ""
+}
+
+[node name="ColorRect" type="ColorRect" parent="."]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -302.0
+margin_top = -84.0
+margin_right = 304.0
+margin_bottom = 80.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="NPCName" type="Label" parent="ColorRect"]
+margin_left = 13.0
+margin_top = 10.0
+margin_right = 729.0
+margin_bottom = 48.0
+custom_fonts/font = ExtResource( 3 )
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+text = "Old Guy"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Dialogue" type="Label" parent="ColorRect"]
+margin_left = 18.0
+margin_top = 50.0
+margin_right = 569.0
+margin_bottom = 147.0
+custom_fonts/font = ExtResource( 3 )
+custom_colors/font_color = Color( 0.439216, 0.439216, 0.439216, 1 )
+text = "Hello adventurer! I lost my key, can you find it for me?"
+autowrap = true
+percent_visible = 0.25
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Answers" type="Label" parent="ColorRect"]
+margin_top = 140.0
+margin_right = 1009.0
+margin_bottom = 179.0
+rect_scale = Vector2( 0.6, 0.6 )
+custom_fonts/font = ExtResource( 3 )
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+text = "[E] Yes [R] No"
+align = 1
+valign = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+pause_mode = 2
+anims/ShowDialogue = SubResource( 1 )
+
+[node name="Typing" type="AudioStreamPlayer" parent="."]
+pause_mode = 2
+stream = ExtResource( 1 )

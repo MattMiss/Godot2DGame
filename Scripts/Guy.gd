@@ -4,18 +4,19 @@ enum QuestStatus { NOT_STARTED, STARTED, COMPLETED }
 enum Potion { HEALTH, MANA }
 var quest_status = QuestStatus.NOT_STARTED
 var dialogue_state = 0
-var necklace_found = false
+var key_found = false
 var anim_player
 var dialoguePopup
 var player
+var current_scene
 
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	anim_player = get_node("AnimationPlayer")
 	anim_player.play("Idle")
-	dialoguePopup = get_tree().root.get_node("Root/CanvasLayer/DialoguePopup")
-	player = get_tree().root.get_node("Root/Player")
+	dialoguePopup = get_tree().root.get_node("Game/CanvasLayer/DialoguePopup")
+	#player = current_scene.get_node("Player")
 
 
 
@@ -26,18 +27,18 @@ func talk(answer = ""):
 	
 	# Set dialoguePopup npc to Guy
 	dialoguePopup.npc = self
-	dialoguePopup.npc_name = "Old Guy"
+	dialoguePopup.npc_name = "Guy"
 	
 	# Show the current dialogue
 	match quest_status:
 		QuestStatus.NOT_STARTED:
 			match dialogue_state:
 				0:
-					print("matched")
+					#print("matched")
 					# Update dialogue tree state
 					dialogue_state = 1
 					# Show dialogue popup
-					dialoguePopup.dialogue = "Hello adventurer! I lost my necklace, can you find it for me?"
+					dialoguePopup.dialogue = "Hello adventurer! I lost the key to my house, can you find it for me?"
 					dialoguePopup.answers = "[Y] Yes  [N] No"
 					dialoguePopup.open()
 				1:
@@ -77,14 +78,14 @@ func talk(answer = ""):
 					# Update dialogue tree state
 					dialogue_state = 1
 					# Show dialogue popup
-					dialoguePopup.dialogue = "Did you find my necklace?"
-					if necklace_found:
+					dialoguePopup.dialogue = "Did you find my key?"
+					if key_found:
 						dialoguePopup.answers = "[Y] Yes  [N] No"
 					else:
-						dialoguePopup.answers = "[N] No"
+						dialoguePopup.answers = "[N] Not yet"
 					dialoguePopup.open()
 				1:
-					if necklace_found and answer == "Y":
+					if key_found and answer == "Y":
 						anim_player.play("Celebrate")
 						# Update dialogue tree state
 						dialogue_state = 2

@@ -9,6 +9,7 @@ var max_speed = 400
 var speed = 0
 var acceleration  = 1200
 var move_direction = 90
+var can_move = false
 var moving = false
 var destination = Vector2()
 var movement  = Vector2() 
@@ -16,6 +17,10 @@ var next_attack_time = 0
 var attack_cooldown_time = 1
 var clicked = false
 var cast_line
+
+onready var canvas_anim_player = get_tree().root.get_node("Game/CanvasLayer/AnimationPlayer")
+onready var battle_background = get_tree().root.get_node("Game/BattleBackground")
+
 
 func _unhandled_input(event):
 	if event.is_action_pressed("Click"):
@@ -39,7 +44,7 @@ func _unhandled_input(event):
 				if target.name == "Bed":
 					# Sleep
 					print("Its a bed")
-					get_tree().root.get_node("Root/CanvasLayer/AnimationPlayer").play("Sleep")
+					get_tree().root.get_node("Game/CanvasLayer/AnimationPlayer").play("Sleep")
 					yield(get_tree().create_timer(1), "timeout")
 					return
 				# NEW CODE - END
@@ -50,18 +55,22 @@ func _unhandled_input(event):
 	
 	
 func _process(_delta):
-	AnimationLoop()
-	RayCastAngleLoop()	
+	
+	if can_move:
+		raycast_angle_loop()	
+		animation_loop()
+	
 	
 func _physics_process(delta):
-	if (clicked):
-		MovementLoop(delta)
-	else:
-		DirectionMoveLoop()
-		movement = move_and_slide(movement)
+	if can_move:
+		if clicked:
+			movement_loop(delta)
+		else:
+			direction_move_loop()
+			movement = move_and_slide(movement)
 
 
-func DirectionMoveLoop():
+func direction_move_loop():
 	movement = Vector2()
 	if Input.is_action_pressed('right'):
 		moving = true
@@ -86,7 +95,7 @@ func DirectionMoveLoop():
 	#print(movement)
 	
 
-func MovementLoop(delta):
+func movement_loop(delta):
 	speed += acceleration * delta
 	if speed > max_speed:
 		speed = max_speed
@@ -99,7 +108,7 @@ func MovementLoop(delta):
 		clicked = false
 
 
-func AnimationLoop():
+func animation_loop():
 	anim_direction = "Down"
 	
 	#print(move_direction)
@@ -123,12 +132,47 @@ func AnimationLoop():
 	animation = anim_mode + "_" + anim_direction
 	$AnimationPlayer.play(animation)
 	
-func RayCastAngleLoop():
+	
+func combat_started(enemy_ref):
+	can_move = false
+	get_tree().paused = true
+	canvas_anim_player.play("BattleTransition")
+	yield(canvas_anim_player, "animation_finished")
+	get_tree().root.get_node("Game/Desert").visible = false
+	position.x = 0
+	position.y = 0
+	#battle_background.position.x = position.x
+	#battle_background.position.y = position.y
+	battle_background.visible = true
+	enemy_ref.change_to_battle_size()
+	enemy_ref.position.x = battle_background.get_node("EnemyPosition").position.x
+	enemy_ref.position.y = battle_background.get_node("EnemyPosition").position.y
+	visible = false
+	get_tree().paused = false
+	canvas_anim_player.play_backwards("BattleTransition")
+	
+	
+func raycast_angle_loop():
 	cast_line = $RayCast2D
-	#print(move_direction - 90)
 	cast_line.rotation_degrees = move_direction - 90
+	
 	
 	
 func PlaySoundFX(sound):
 	$SoundFX.set_stream(sound)
 	$SoundFX.play()
+
+
+func _on_PlayButton_pressed():
+	#get_tree().root.get_node("Game/CanvasLayer/MenuBG").visible = false
+	canvas_anim_player.play("MenuFade")
+	yield(canvas_anim_player, "animation_finished")
+	canvas_anim_player.play("WakeUp")
+	yield(canvas_anim_player, "animation_finished")
+	can_move = true
+
+
+func _on_InteractArea_body_entered(body):
+	if body.is_in_group("Interactable"):
+		print(body.name)
+

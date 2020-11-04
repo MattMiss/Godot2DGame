@@ -7,8 +7,8 @@ var player
 var player_sound_fx
 
 func _ready():
-	old_guy = get_tree().root.get_node("Root/Guy")
-	player = get_tree().root.get_node("Root/Player")
+	old_guy = get_tree().root.get_node("Game/Guy")
+	player = get_tree().root.get_node("Game/Player")
 	
 
 
@@ -20,4 +20,4 @@ func _on_Key_body_entered(body):
 		
 		player.PlaySoundFX(stream)
 		get_tree().queue_delete(self)
-		old_guy.necklace_found = true
+		old_guy.key_found = true
